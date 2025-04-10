@@ -64,7 +64,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpawnerChance.cs" />
+    <Compile Include="Scp3114SpawnerPatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ExMod.Exiled">
