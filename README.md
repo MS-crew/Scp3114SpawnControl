@@ -7,9 +7,9 @@
 
 </div>
 
-## Scp 3114 Spawn Control
+## Scp 3114 Spawn Control(Do not use it now, it will not work until 14.1 ) 
 
-- **Scp 3114 Natural Spawn :** With this plugin you have control over the spawn of scp 3114 and this spawn happens naturally, that is, through the game's spawn system.
+- **Scp 3114 Natural Spawn :** With this plugin you have control over the spawn of scp 3114 and this spawn happens naturally. 
   
 - **Spawn Chance :** The chance setting for Scp 3114 to be spawn.
 
