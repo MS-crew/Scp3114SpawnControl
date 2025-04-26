@@ -23,7 +23,6 @@ namespace Scp3114SpawnControl
 
             codes[index].operand = (float)Plugin.Instance.Config.Chance / 100f;
 
-            //index = codes.FindIndex(x => x.opcode == OpCodes.Ldc_I4_2 what if value change);
             index = codes.FindIndex(x => x.opcode == OpCodes.Bge_S) - 1;
 
             codes[index].opcode = OpCodes.Ldc_I4;
