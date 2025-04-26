@@ -7,13 +7,13 @@
 
 </div>
 
-## Scp 3114 Spawn Control(Do not use it now, it will not work until 14.1 ) 
+## (Do not use it now, it will not work until 14.1 ) 
 
-- **Scp 3114 Natural Spawn :** With this plugin you have control over the spawn of scp 3114 and this spawn happens naturally. 
+- **Scp 3114 Natural Spawn :** This plugin allows SCP-3114 to spawn naturally during a match without requiring any admin commands or manual intervention.
   
-- **Spawn Chance :** The chance setting for Scp 3114 to be spawn.
+- **Spawn Chance :** Configurable percentage chance for SCP-3114 to spawn naturally.
 
-- **Minimum Human Count :** Minimum number of people required for scp 3114 to be spawn.
+- **Minimum Human Count :** Specifies the minimum number of humans required for SCP-3114 to be eligible for spawning.
 
 ## Installation
 
@@ -35,8 +35,10 @@ Thank you for using our plugin and helping us improve it!
 ```yml
 is_enabled: true
 debug: false
-# Chances of Scp-3114 spawning
-chance: 100
+# Scp-3114 Spawn Chances
+chance: 50
 # Minimum number of player required for Scp-3114 to spawn
-minimum_human: 0
+minimum_human: 5
+# Whether Scp-3114 will be chosen from Scp`s or humans.(True = Scps / False = Humans)
+select_from_scps: true
 ```
