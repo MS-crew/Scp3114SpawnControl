@@ -14,8 +14,5 @@ namespace Scp3114SpawnControl
 
         [Description("Minimum number of humans required for SCP-3114 to spawn.")]
         public int MinimumHuman { get; set; } = 5;
-
-        [Description("Whether SCP-3114 will be selected from SCPs or humans. (True = SCPs / False = Humans)")]
-        public bool SelectFromScps { get; set; } = true;
     }
 }
