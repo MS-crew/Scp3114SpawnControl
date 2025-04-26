@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scp3114SpawnControl", "Scp3114SpawnControl.csproj", "{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Debug|x64.ActiveCfg = Debug|x64
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Debug|x64.Build.0 = Debug|x64
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Release|x64.ActiveCfg = Release|x64
+		{D3EC807D-25E7-4E7D-BCB3-E71EC2E1E895}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99458677-F0A9-40D1-BAFD-E7F4B040B1AD}
+	EndGlobalSection
+EndGlobal
