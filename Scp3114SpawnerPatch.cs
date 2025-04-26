@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 
-using Exiled.API.Features;
 using Exiled.API.Features.Pools;
 using HarmonyLib;
 
+using PlayerRoles;
+using PlayerRoles.PlayableScps;
 using PlayerRoles.PlayableScps.Scp3114;
 
 namespace Scp3114SpawnControl
@@ -16,48 +19,25 @@ namespace Scp3114SpawnControl
         {
             List<CodeInstruction> codes = ListPool<CodeInstruction>.Pool.Get(instructions);
 
-            // Default spawn chance is 0.0f (0%).
-            const double defaultspawnchance = Scp3114Spawner.SpawnChance;
+            int index = codes.FindIndex(x => x.opcode == OpCodes.Ldc_R4 && (float)x.operand == Scp3114Spawner.SpawnChance);
 
-            // Find spawn chance index.
-            int changeindex = codes.FindIndex(x => x.opcode == OpCodes.Ldc_R4 && (float)x.operand == defaultspawnchance);
+            codes[index].operand = (float)Plugin.Instance.Config.Chance / 100f;
 
-            // Fail safe if it cannot find the index.
-            if (changeindex == -1)
+            //index = codes.FindIndex(x => x.opcode == OpCodes.Ldc_I4_2 what if value change);
+            index = codes.FindIndex(x => x.opcode == OpCodes.Bge_S) - 1;
+
+            codes[index].opcode = OpCodes.Ldc_I4;
+            codes[index].operand = Plugin.Instance.Config.MinimumHuman;
+
+            if (Plugin.Instance.Config.SelectFromScps)
             {
-                Log.Error("Scp3114Spawner error: Failed to find spawn chance instruction.");
-                foreach (CodeInstruction code in codes)
-                    yield return code;
-
-                ListPool<CodeInstruction>.Pool.Return(codes); // cleanup
-
-                yield break;
+                MethodInfo method = typeof(PlayerRolesUtils).GetMethod(nameof(PlayerRolesUtils.ForEachRole), new[] { typeof(Action<ReferenceHub>) });
+                index = codes.FindIndex(x => x.opcode == OpCodes.Call && x.operand is MethodInfo m && m.IsGenericMethod && m.GetGenericMethodDefinition() == method);
+                codes[index].operand = method.MakeGenericMethod(typeof(FpcStandardScp));
             }
 
-            // `UnityEngine.Random.value >= 0f` to `UnityEngine.Random.value >= Plugin.Instance.Config.Chance / 100f`
-            codes[changeindex].operand = (float)Plugin.Instance.Config.Chance / 100f;
-
-            // Default minimum human for spawn is 2.
-            int minhumanindex = codes.FindIndex(x => x.opcode == OpCodes.Ldc_I4_2 );
-
-            // Fail safe if it cannot find the index.
-            if (minhumanindex == -1)
-            {
-                Log.Error("Scp3114Spawner error: Failed to find minimum human instruction.");
-                foreach (CodeInstruction code in codes)
-                    yield return code;
-
-                ListPool<CodeInstruction>.Pool.Return(codes); // cleanup
-
-                yield break;
-            }
-
-            // `Scp3114Spawner.SpawnCandidates.Count < 2` to `Scp3114Spawner.SpawnCandidates.Count < Plugin.Instance.Config.MinimumHuman`
-            codes[minhumanindex].opcode = OpCodes.Ldc_I4;
-            codes[minhumanindex].operand = Plugin.Instance.Config.MinimumHuman;
-            
-            foreach (CodeInstruction code in codes)
-                yield return code;
+            for (int i = 0; i < codes.Count; i++)
+                yield return codes[i];
 
             ListPool<CodeInstruction>.Pool.Return(codes);
         }
