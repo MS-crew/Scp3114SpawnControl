@@ -35,8 +35,11 @@ Thank you for using our plugin and helping us improve it!
 ```yml
 is_enabled: true
 debug: false
-# Scp-3114 Spawn Chances
-chance: 50
-# Minimum number of player required for Scp-3114 to spawn
-minimum_human: 5
+# Chance for SCP-3114 to spawn (in percentage).
+chance: 100
+# Minimum number of humans required for SCP-3114 to spawn.
+minimum_human: 1
+# SCP-3114 will NOT spawn if any of the specified holiday types are currently active.
+blocked_holiday_types:
+- Halloween
 ```
