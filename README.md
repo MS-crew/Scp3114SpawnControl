@@ -7,8 +7,6 @@
 
 </div>
 
-## (Do not use it now, it will not work until 14.1 ) 
-
 - **Scp 3114 Natural Spawn :** This plugin allows SCP-3114 to spawn naturally during a match without requiring any admin commands or manual intervention.
   
 - **Spawn Chance :** Configurable percentage chance for SCP-3114 to spawn naturally.
