@@ -14,7 +14,7 @@ namespace Scp3114SpawnControl
 
         public override string Prefix => "Scp3114SpawnControl";
 
-        public override Version Version { get; } = new Version(1, 1, 0);
+        public override Version Version { get; } = new Version(1, 2, 0);
 
         public override Version RequiredExiledVersion { get; } = new Version(9, 6, 0);
 

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using Exiled.API.Interfaces;
+using MapGeneration.Holidays;
+using System.Collections.Generic;
 
 namespace Scp3114SpawnControl
 {
@@ -14,5 +16,11 @@ namespace Scp3114SpawnControl
 
         [Description("Minimum number of humans required for SCP-3114 to spawn.")]
         public int MinimumHuman { get; set; } = 5;
+
+        [Description("SCP-3114 will NOT spawn if any of the specified holiday types are currently active.")]
+        public List<HolidayType> BlockedHolidayTypes { get; set; } =
+        [
+            HolidayType.Halloween,
+        ];
     }
 }

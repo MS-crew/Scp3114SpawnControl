@@ -2,23 +2,24 @@
 using UnityEngine;
 using Exiled.API.Features;
 using Exiled.API.Extensions;
+using MapGeneration.Holidays;
 
 namespace Scp3114SpawnControl
 {
-    public class EventHandlers
+    public class EventHandlers(Plugin plugin)
     {
-        public readonly Plugin plugin;
-        public EventHandlers(Plugin plugin) => this.plugin = plugin;
         public void AllPlayersSpawned()
         {
-            if (Player.List.Where(p => p.IsHuman).Count() < plugin.Config.MinimumHuman)
+            if (Player.List.Count(p => p.IsHuman) < Mathf.Max(1, plugin.Config.MinimumHuman))
                 return;
 
-            if ((float)Random.value >= Mathf.Clamp(plugin.Config.Chance / 100f, 0f, 1f))
+            if (Random.value >= Mathf.Clamp(plugin.Config.Chance / 100f, 0f, 1f))
                 return;
 
-            Player.List.Where(p => p.IsScp).GetRandomValue().Role
-                .Set(PlayerRoles.RoleTypeId.Scp3114, Exiled.API.Enums.SpawnReason.RoundStart , PlayerRoles.RoleSpawnFlags.All);
+            if (plugin.Config.BlockedHolidayTypes.Contains(HolidayUtils.GetActiveHoliday()))
+                return;
+
+            Player.List.GetRandomValue(p => p.IsScp)?.Role.Set(PlayerRoles.RoleTypeId.Scp3114, Exiled.API.Enums.SpawnReason.RoundStart, PlayerRoles.RoleSpawnFlags.All);
         }
     }
 }
