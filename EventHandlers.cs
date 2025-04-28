@@ -13,7 +13,7 @@ namespace Scp3114SpawnControl
             if (Player.List.Count(p => p.IsHuman) < Mathf.Max(1, plugin.Config.MinimumHuman))
                 return;
 
-            if (Random.value >= Mathf.Clamp(plugin.Config.Chance / 100f, 0f, 1f))
+            if (Random.Range(0, 100) >= plugin.Config.Chance)
                 return;
 
             if (plugin.Config.BlockedHolidayTypes.Contains(HolidayUtils.GetActiveHoliday()))
