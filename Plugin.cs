@@ -1,12 +1,15 @@
 ﻿using System;
 using Exiled.API.Features;
-using PlayerRoles.RoleAssign;
+
+using HarmonyLib;
 
 namespace Scp3114SpawnControl
 {
     public class Plugin : Plugin<Config>
     {
-        public static EventHandlers eventHandlers;
+        private Harmony harmony;
+
+        public static Plugin Instance { get; private set; }
 
         public override string Author => "ZurnaSever";
 
@@ -14,21 +17,27 @@ namespace Scp3114SpawnControl
 
         public override string Prefix => "Scp3114SpawnControl";
 
-        public override Version Version { get; } = new Version(1, 2, 1);
+        public override Version Version { get; } = new Version(1, 3, 0);
 
-        public override Version RequiredExiledVersion { get; } = new Version(9, 6, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(9, 10, 0);
 
         public override void OnEnabled()
         {
-            eventHandlers = new EventHandlers(this);
-            RoleAssigner.OnPlayersSpawned += eventHandlers.AllPlayersSpawned;
+            Instance = this;
+
+            harmony = new Harmony(Prefix + DateTime.Now.Ticks);
+            harmony.PatchAll();
+
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            RoleAssigner.OnPlayersSpawned -= eventHandlers.AllPlayersSpawned;
-            eventHandlers = null;
+            harmony.UnpatchAll(harmony.Id);
+
+            harmony = null;
+            Instance = null;
+
             base.OnDisabled();
         }
     }
