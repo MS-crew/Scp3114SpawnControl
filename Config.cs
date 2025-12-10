@@ -21,5 +21,8 @@ namespace Scp3114SpawnControl
         [
             HolidayType.Halloween,
         ];
+
+        [Description("It prevents SCP 3114 from being spectated by spectators.")]
+        public bool Make3114UnSpectatable { get; set; } = false;
     }
 }
