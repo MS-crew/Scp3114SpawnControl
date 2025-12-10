@@ -28,6 +28,7 @@ namespace Scp3114SpawnControl
             Instance = this;
             eventHandler = new EventHandler();
 
+            Exiled.Events.Handlers.Server.WaitingForPlayers += eventHandler.OnWaitingforPlayers;
             Exiled.Events.Handlers.Player.Spawned += eventHandler.OnSpawned;
 
             harmony = new Harmony(Prefix + DateTime.Now.Ticks);
@@ -38,6 +39,7 @@ namespace Scp3114SpawnControl
 
         public override void OnDisabled()
         {
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= eventHandler.OnWaitingforPlayers;
             Exiled.Events.Handlers.Player.Spawned -= eventHandler.OnSpawned;
 
             harmony.UnpatchAll(harmony.Id);
