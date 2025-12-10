@@ -1,7 +1,7 @@
 <h1 align="center">Scp 3114 Spawn Control</h1>
 <div align="center">
 <a href="https://github.com/MS-crew/Scp3114SpawnControl/releases"><img src="https://img.shields.io/github/downloads/MS-crew/Scp3114SpawnControl/total?style=for-the-badge&logo=githubactions&label=Downloads" href="https://github.com/MS-crew/Scp3114SpawnControl/releases" alt="GitHub Release Download"></a>
-<a href="https://github.com/MS-crew/Scp3114SpawnControl/releases"><img src="https://img.shields.io/badge/Build-1.2.1-brightgreen?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/Scp3114SpawnControl/releases" alt="GitHub Releases"></a>
+<a href="https://github.com/MS-crew/Scp3114SpawnControl/releases"><img src="https://img.shields.io/badge/Build-1.3.0-brightgreen?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/Scp3114SpawnControl/releases" alt="GitHub Releases"></a>
 <a href="https://github.com/MS-crew/Scp3114SpawnControl/blob/master/LICENSE"><img src="https://img.shields.io/badge/Licence-GNU_3.0-blue?style=for-the-badge&logo=gitbook" href="https://github.com/MS-crew/Scp3114SpawnControl/blob/master/LICENSE" alt="General Public License v3.0"></a>
 <a href="https://github.com/ExMod-Team/EXILED"><img src="https://img.shields.io/badge/Exiled-9.6.0-red?style=for-the-badge&logo=gitbook" href="https://github.com/ExMod-Team/EXILED" alt="GitHub Exiled"></a>
 
@@ -34,7 +34,7 @@ Thank you for using our plugin and helping us improve it!
 is_enabled: true
 debug: false
 # Chance for SCP-3114 to spawn (in percentage).
-chance: 50
+chance: 1
 # Minimum number of humans required for SCP-3114 to spawn.
 minimum_human: 5
 # SCP-3114 will NOT spawn if any of the specified holiday types are currently active.
