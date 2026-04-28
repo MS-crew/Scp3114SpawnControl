@@ -61,7 +61,10 @@ namespace Scp3114SpawnControl
                 return;
 
             float totalChance = spawnPoints.Sum(x => x.Chance);
-            float randomValue = Random.Range(0f, totalChance);
+            if (totalChance <= 0f)
+                return;
+
+            float randomValue = Random.Range(0f, Mathf.Max(100f, totalChance));
             float cumulative = 0f;
 
             SpawnPoint selectedSpawn = null;

@@ -9,7 +9,6 @@ namespace Scp3114SpawnControl.Models
 {
     public class SpawnPoint
     {
-        [Description("Chance for this spawn point to be selected to others.")]
         public float Chance { get; set; }
 
         [Description("Name of the spawn point (for organization purposes only).")]
