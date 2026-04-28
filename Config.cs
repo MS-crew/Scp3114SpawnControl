@@ -35,8 +35,8 @@ namespace Scp3114SpawnControl
         [
             new SpawnPoint()
             {
-                Chance = 0,
                 Name = "Servers Lower Cabinet",
+                Chance = 0,
                 Room = RoomType.HczServerRoom,
                 Position = new Vector3(6.08f, -3.54f, 4.29f),
                 Rotation = new Vector3(0, 180, 0),
@@ -58,8 +58,8 @@ namespace Scp3114SpawnControl
             },
             new SpawnPoint()
             {
-                Chance = 0,
                 Name = "Servers Upper",
+                Chance = 0,
                 Room = RoomType.HczServerRoom,
                 Position = new Vector3(5.40f, 0.98f, -6.31f),
                 Rotation = new Vector3(0, 270, 0),
