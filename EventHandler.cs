@@ -109,8 +109,6 @@ namespace Scp3114SpawnControl
             float randomValue = Random.Range(0f, Mathf.Max(100f, totalChance));
             float cumulative = 0f;
 
-            SpawnPoint selectedSpawn = null;
-
             foreach (SpawnPoint spawnPoint in spawnPoints)
             {
                 cumulative += spawnPoint.Chance;
@@ -118,7 +116,7 @@ namespace Scp3114SpawnControl
                     return spawnPoint;
             }
 
-            return selectedSpawn;
+            return null;
         }
 
         private void TrySpawnCustomRagdolls(SpawnPoint spawnPoint, Room room, bool isRoomNull, Player player)
