@@ -106,8 +106,8 @@ namespace Scp3114SpawnControl
             if (totalChance <= 0f)
                 return null;
 
-            float randomValue = Random.Range(0f, Mathf.Max(100f, totalChance));
             float cumulative = 0f;
+            float randomValue = Random.Range(0f, Mathf.Max(100f, totalChance));
 
             foreach (SpawnPoint spawnPoint in spawnPoints)
             {
