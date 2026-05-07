@@ -33,11 +33,91 @@ Thank you for using our plugin and helping us improve it!
 ```yml
 is_enabled: true
 debug: false
-# Chance for SCP-3114 to spawn (in percentage).
-chance: 1
-# Minimum number of humans required for SCP-3114 to spawn.
-minimum_human: 5
-# SCP-3114 will NOT spawn if any of the specified holiday types are currently active.
+# Chance for SCP-3114 to spawn (1 is default Scp Spawn Chance)
+spawn_chance: 1
+# Minimum number of player required for SCP-3114 to spawn.
+minimum_player: 5
+# SCP-3114 spawn chance not chancing by this plugin if any of the specified holiday types are currently active.
 blocked_holiday_types:
 - Halloween
+- Christmas
+spawn_points:
+- name: 'Servers Lower Cabinet'
+  chance: 0
+  # The room type where SCP-3114 and the ragdolls will spawn.
+  room: HczServerRoom
+  # Position offset relative to the room (or world coordinates if no room is found).
+  position:
+    x: 6.08
+    y: -3.54
+    z: 4.29
+  # Eular Rotation offset relative to the room.
+  rotation:
+    x: 0
+    y: 180
+    z: 0
+  # List of custom ragdolls to spawn around SCP-3114 at this location.
+  custom_ragdolls:
+  - role_type: FacilityGuard
+    # Position offset for the ragdoll, relative to the selected room.
+    position:
+      x: 6.29
+      y: -3.54
+      z: 2.94
+    # Rotation offset for the ragdoll (X, Y, Z).
+    rotation:
+      x: 0
+      y: 127
+      z: 0
+  - role_type: Scientist
+    # Position offset for the ragdoll, relative to the selected room.
+    position:
+      x: 5
+      y: -3.54
+      z: 6.08
+    # Rotation offset for the ragdoll (X, Y, Z).
+    rotation:
+      x: 0
+      y: 82
+      z: 0
+- name: 'Servers Upper'
+  chance: 0
+  # The room type where SCP-3114 and the ragdolls will spawn.
+  room: HczServerRoom
+  # Position offset relative to the room (or world coordinates if no room is found).
+  position:
+    x: 5.4
+    y: 0.98
+    z: -6.31
+  # Eular Rotation offset relative to the room.
+  rotation:
+    x: 0
+    y: 270
+    z: 0
+  # List of custom ragdolls to spawn around SCP-3114 at this location.
+  custom_ragdolls:
+  - role_type: FacilityGuard
+    # Position offset for the ragdoll, relative to the selected room.
+    position:
+      x: 3.25
+      y: 0.98
+      z: -6.4
+    # Rotation offset for the ragdoll (X, Y, Z).
+    rotation:
+      x: 0
+      y: 87
+      z: 0
+  - role_type: Scientist
+    # Position offset for the ragdoll, relative to the selected room.
+    position:
+      x: 4.8
+      y: 0.98
+      z: -4.44
+    # Rotation offset for the ragdoll (X, Y, Z).
+    rotation:
+      x: 0
+      y: 302
+      z: 0
+# It prevents SCP 3114 from being spectated by spectators.
+make3114_un_spectatable: false
 ```
