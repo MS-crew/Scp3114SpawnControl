@@ -56,13 +56,55 @@ namespace Scp3114SpawnControl
             if (!ev.NewRole.SpawnFlags.HasFlag(RoleSpawnFlags.UseSpawnpoint))
                 return;
 
+            SpawnPoint selectedSpawn = TryGetSpawnPoint();
+            if (selectedSpawn == null)
+                return;
+
+            Room room = Room.Get(selectedSpawn.Room);
+            bool isRoomNull = room == null;
+
+            /// Not working idk why?
+            // ev.HorizontalRotation = roomNull ? selectedSpawn.Rotation.y : (room.Rotation * Quaternion.Euler(selectedSpawn.Rotation)).eulerAngles.y;
+
+            ev.Position = isRoomNull ? selectedSpawn.Position : room.WorldPosition(selectedSpawn.Position);
+            pendingRotations[ev.Player] = isRoomNull ? Quaternion.Euler(selectedSpawn.Rotation) : room.Rotation * Quaternion.Euler(selectedSpawn.Rotation);
+
+            TrySpawnCustomRagdolls(selectedSpawn, room, isRoomNull, ev.Player);
+        }
+
+        private void OnSpawned(SpawnedEventArgs ev)
+        {
+            bool isNewRoleIsScp3114 = ev.Player.Role.Type == scp3114Role;
+
+            if (isNewRoleIsScp3114)
+                Handle3114Spawn(ev.Player);
+
+            if (!Plugin.Instance.Config.Make3114UnSpectatable)
+                return;
+
+            if (ev.OldRole.Type == scp3114Role && !isNewRoleIsScp3114 && spectatableCache.TryGetValue(ev.Player, out bool previous))
+            {
+                ev.Player.IsSpectatable = previous;
+                spectatableCache.Remove(ev.Player);
+                return;
+            }
+
+            if (isNewRoleIsScp3114)
+            {
+                spectatableCache[ev.Player] = ev.Player.IsSpectatable;
+                ev.Player.IsSpectatable = false;
+            }
+        }
+
+        private SpawnPoint TryGetSpawnPoint()
+        {
             List<SpawnPoint> spawnPoints = Plugin.Instance.Config.SpawnPoints;
             if (spawnPoints.Count == 0)
-                return;
+                return null;
 
             float totalChance = spawnPoints.Sum(x => x.Chance);
             if (totalChance <= 0f)
-                return;
+                return null;
 
             float randomValue = Random.Range(0f, Mathf.Max(100f, totalChance));
             float cumulative = 0f;
@@ -73,68 +115,39 @@ namespace Scp3114SpawnControl
             {
                 cumulative += spawnPoint.Chance;
                 if (randomValue <= cumulative)
-                {
-                    selectedSpawn = spawnPoint;
-                    break;
-                }
+                    return spawnPoint;
             }
 
-            if (selectedSpawn == null)
-                return;
-
-            Room room = Room.Get(selectedSpawn.Room);
-            bool roomNull = room == null;
-
-            ev.Position = roomNull ? selectedSpawn.Position : room.WorldPosition(selectedSpawn.Position);
-
-            /// Not working idk why?
-            //ev.HorizontalRotation = roomNull ? selectedSpawn.Rotation.y : (room.Rotation * Quaternion.Euler(selectedSpawn.Rotation)).eulerAngles.y;
-
-            pendingRotations[ev.Player] = roomNull ? Quaternion.Euler(selectedSpawn.Rotation) : room.Rotation * Quaternion.Euler(selectedSpawn.Rotation);
-
-            if (!Scp3114InitialRagdollSpawner._ragdollsSpawned && selectedSpawn.CustomRagdolls != null && selectedSpawn.CustomRagdolls.Count != 0)
-            {
-                foreach (CustomRagdolls ragdoll in selectedSpawn.CustomRagdolls)
-                {
-                    Vector3 pos = roomNull ? ragdoll.Position : room.WorldPosition(ragdoll.Position);
-                    Quaternion rot = roomNull ? Quaternion.Euler(ragdoll.Rotation) : room.Rotation * Quaternion.Euler(ragdoll.Rotation);
-
-                    Scp3114InitialRagdollSpawner.ServerSpawnRagdoll(ragdoll.RoleType, pos, rot, ev.Player.ReferenceHub);
-                }
-
-                Scp3114InitialRagdollSpawner._ragdollsSpawned = true;
-            }
+            return selectedSpawn;
         }
 
-        private void OnSpawned(SpawnedEventArgs ev)
+        private void TrySpawnCustomRagdolls(SpawnPoint spawnPoint, Room room, bool isRoomNull, Player player)
         {
-            if (ev.Player.Role.Type == scp3114Role)
-            {
-                Scp3114InitialRagdollSpawner.ServerSpawnRagdolls(ev.Player.ReferenceHub);
-
-                if (pendingRotations.TryGetValue(ev.Player, out Quaternion rot))
-                {
-                    if (ev.SpawnFlags.HasFlag(RoleSpawnFlags.UseSpawnpoint))
-                        ev.Player.Rotation = rot;
-
-                    pendingRotations.Remove(ev.Player);
-                }
-            }
-            
-            if (!Plugin.Instance.Config.Make3114UnSpectatable)
+            if (Scp3114InitialRagdollSpawner._ragdollsSpawned)
                 return;
 
-            if (ev.OldRole.Type == scp3114Role && ev.Player.Role.Type != scp3114Role && spectatableCache.TryGetValue(ev.Player, out bool previous))
-            {
-                ev.Player.IsSpectatable = previous;
-                spectatableCache.Remove(ev.Player);
+            if (spawnPoint.CustomRagdolls == null || spawnPoint.CustomRagdolls.Count == 0)
                 return;
+
+            foreach (CustomRagdolls ragdoll in spawnPoint.CustomRagdolls)
+            {
+                Vector3 pos = isRoomNull ? ragdoll.Position : room.WorldPosition(ragdoll.Position);
+                Quaternion rot = isRoomNull ? Quaternion.Euler(ragdoll.Rotation) : room.Rotation * Quaternion.Euler(ragdoll.Rotation);
+
+                Scp3114InitialRagdollSpawner.ServerSpawnRagdoll(ragdoll.RoleType, pos, rot, player.ReferenceHub);
             }
 
-            if (ev.Player.Role.Type == scp3114Role)
+            Scp3114InitialRagdollSpawner._ragdollsSpawned = true;
+        }
+
+        private void Handle3114Spawn(Player player)
+        {
+            Scp3114InitialRagdollSpawner.ServerSpawnRagdolls(player.ReferenceHub);
+
+            if (pendingRotations.TryGetValue(player, out Quaternion rot))
             {
-                spectatableCache[ev.Player] = ev.Player.IsSpectatable;
-                ev.Player.IsSpectatable = false;
+                player.Rotation = rot;
+                pendingRotations.Remove(player);
             }
         }
     }

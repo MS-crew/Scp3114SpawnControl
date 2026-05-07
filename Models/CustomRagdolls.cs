@@ -10,10 +10,10 @@ namespace Scp3114SpawnControl.Models
     {
         public RoleTypeId RoleType { get; set; }
 
-        [Description("Position offset for the ragdoll, relative to the selected room.")]
+        [Description("Position offset for the ragdoll, relative to the room.")]
         public Vector3 Position { get; set; }
 
-        [Description("Rotation offset for the ragdoll (X, Y, Z).")]
+        [Description("Eular Rotation offset relative to the room.")]
         public Vector3 Rotation { get; set; }
     }
 }
