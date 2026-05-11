@@ -31,7 +31,7 @@ namespace Scp3114SpawnControl
                 return false;
             }
 
-            response = $"Room: {room.Type}\nLocal Position: {room.LocalPosition(player.Position)}\nHorizontal Rotation: {(Quaternion.Inverse(room.Rotation) * player.Transform.rotation).eulerAngles.y}";
+            response = $"Room: {room.Type}, Local Position: {room.LocalPosition(player.Position)}, Local Rotation: {(Quaternion.Inverse(room.Rotation) * player.Rotation).eulerAngles}";
             return true;
         }
     }

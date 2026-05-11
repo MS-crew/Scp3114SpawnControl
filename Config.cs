@@ -39,7 +39,7 @@ namespace Scp3114SpawnControl
                 Chance = 0,
                 Room = RoomType.HczServerRoom,
                 Position = new Vector3(6.08f, -3.54f, 4.29f),
-                HorizontalRotation = 180f,
+                Rotation = new Vector3(0, 180, 0),
                 CustomRagdolls = 
                 [
                     new CustomRagdolls()
@@ -62,7 +62,7 @@ namespace Scp3114SpawnControl
                 Chance = 0,
                 Room = RoomType.HczServerRoom,
                 Position = new Vector3(5.40f, 0.98f, -6.31f),
-                HorizontalRotation = 270f,
+                Rotation = new Vector3(0, 270, 0),
                 CustomRagdolls =
                 [
                     new CustomRagdolls()
