@@ -16,13 +16,11 @@ using Random = UnityEngine.Random;
 
 namespace Scp3114SpawnControl
 {
-    public class EventHandler
+    public class EventHandler()
     {
         private const RoleTypeId scp3114Role = RoleTypeId.Scp3114;
 
         private readonly Dictionary<Player, bool> spectatableCache = new(2);
-
-        private readonly Dictionary<Player, Quaternion> pendingRotations = new(2);
 
         public void Subscribe()
         {
@@ -42,11 +40,7 @@ namespace Scp3114SpawnControl
             PlayerRoleManager.OnServerRoleSet += Scp3114InitialRagdollSpawner.OnServerRoleSet;
         }
 
-        private void OnWaitingforPlayers() 
-        { 
-            spectatableCache.Clear();
-            pendingRotations.Clear();
-        }
+        private void OnWaitingforPlayers() => spectatableCache.Clear();
 
         private void OnSpawning(SpawningEventArgs ev)
         {
@@ -63,11 +57,8 @@ namespace Scp3114SpawnControl
             Room room = Room.Get(selectedSpawn.Room);
             bool isRoomNull = room == null;
 
-            /// Not working idk why?
-            // ev.HorizontalRotation = roomNull ? selectedSpawn.Rotation.y : (room.Rotation * Quaternion.Euler(selectedSpawn.Rotation)).eulerAngles.y;
-
+            ev.HorizontalRotation = isRoomNull ? selectedSpawn.HorizontalRotation : room.Rotation.eulerAngles.y + selectedSpawn.HorizontalRotation;
             ev.Position = isRoomNull ? selectedSpawn.Position : room.WorldPosition(selectedSpawn.Position);
-            pendingRotations[ev.Player] = isRoomNull ? Quaternion.Euler(selectedSpawn.Rotation) : room.Rotation * Quaternion.Euler(selectedSpawn.Rotation);
 
             TrySpawnCustomRagdolls(selectedSpawn, room, isRoomNull, ev.Player);
         }
@@ -77,7 +68,7 @@ namespace Scp3114SpawnControl
             bool isNewRoleIsScp3114 = ev.Player.Role.Type == scp3114Role;
 
             if (isNewRoleIsScp3114)
-                Handle3114Spawn(ev.Player);
+                Scp3114InitialRagdollSpawner.ServerSpawnRagdolls(ev.Player.ReferenceHub);
 
             if (!Plugin.Instance.Config.Make3114UnSpectatable)
                 return;
@@ -136,17 +127,6 @@ namespace Scp3114SpawnControl
             }
 
             Scp3114InitialRagdollSpawner._ragdollsSpawned = true;
-        }
-
-        private void Handle3114Spawn(Player player)
-        {
-            Scp3114InitialRagdollSpawner.ServerSpawnRagdolls(player.ReferenceHub);
-
-            if (pendingRotations.TryGetValue(player, out Quaternion rot))
-            {
-                player.Rotation = rot;
-                pendingRotations.Remove(player);
-            }
         }
     }
 }
